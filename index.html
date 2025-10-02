@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پالس گجت - فروشگاه تخصصی لوازم جانبی موبایل</title>
+    <meta name="description" content="پالس گجت - مرجع تخصصی لوازم جانبی موبایل شامل شارژر، گلس، هندزفری، اسپیکر و سایر گجت‌ها">
+    <meta name="keywords" content="پالس گجت, لوازم جانبی موبایل, شارژر, گلس, هندزفری, اسپیکر, گجت">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Store",
+        "name": "پالس گجت",
+        "description": "فروشگاه تخصصی لوازم جانبی موبایل",
+        "url": "https://pulsegajet.netlify.app",
+        "brand": "پالس گجت"
+    }
+    </script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="brand">
+                <h1>پالس گجت</h1>
+                <p>تخصصی‌ترین لوازم جانبی موبایل</p>
+            </div>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="جستجوی محصولات...">
+                <button onclick="searchProducts()">🔍 جستجو</button>
+            </div>
+        </div>
+    </header>
+
+    <nav class="categories">
+        <div class="container">
+            <button class="category-btn active" onclick="filterProducts('all')">همه محصولات</button>
+            <button class="category-btn" onclick="filterProducts('اسپیکر')">اسپیکر</button>
+            <button class="category-btn" onclick="filterProducts('مبدل')">مبدل</button>
+            <button class="category-btn" onclick="filterProducts('قاب')">قاب</button>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="products-grid" id="productsGrid">
+            <!-- محصولات اینجا نمایش داده می‌شوند -->
+        </div>
+        
+        <div id="noProducts" class="no-products" style="display: none;">
+            <p>محصولی یافت نشد.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© پالس گجت</p>
+        </div>
+    </footer>
+
+    <script src="products-data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
