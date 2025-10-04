@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>پالس گجت - فروشگاه تخصصی لوازم جانبی موبایل</title>
-    <meta name="description" content="پالس گجت - مرجع تخصصی لوازم جانبی موبایل شامل شارژر، گلس، هندزفری، اسپیکر و سایر گجت‌ها">
-    <meta name="keywords" content="پالس گجت, لوازم جانبی موبایل, شارژر, گلس, هندزفری, اسپیکر, گجت">
+    <title>PulseGadgett - فروشگاه تخصصی لوازم جانبی موبایل</title>
+    <meta name="description" content="PulseGadgett - مرجع تخصصی لوازم جانبی موبایل شامل شارژر، گلس، هندزفری، اسپیکر و سایر گجت‌ها">
+    <meta name="keywords" content="PulseGadgett, لوازم جانبی موبایل, شارژر, گلس, هندزفری, اسپیکر, گجت">
     
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Store",
-        "name": "پالس گجت",
+        "name": "PulseGadgett",
         "description": "فروشگاه تخصصی لوازم جانبی موبایل",
-        "url": "https://pulsegajet.netlify.app",
-        "brand": "پالس گجت"
+        "url": "https://pulsegadgett.netlify.app",
+        "brand": "PulseGadgett"
     }
     </script>
     
@@ -25,13 +25,25 @@
     <header>
         <div class="container">
             <div class="brand">
-                <h1>پالس گجت</h1>
-                <p>تخصصی‌ترین لوازم جانبی موبایل</p>
+                <div class="logo-container">
+                    <img src="images/1759317550.png" alt="PulseGadgett" class="logo">
+                    <div class="brand-text">
+                        <h1>PulseGadgett</h1>
+                        <p>ضربان استایل دیجیتال شما</p>
+                    </div>
+                </div>
             </div>
             
             <div class="search-container">
                 <input type="text" id="searchInput" placeholder="جستجوی محصولات...">
                 <button onclick="searchProducts()">🔍 جستجو</button>
+            </div>
+
+            <div class="header-actions">
+                <div class="cart-icon" onclick="toggleCart()">
+                    🛒 سبد خرید
+                    <span id="cartCount" class="cart-count">0</span>
+                </div>
             </div>
         </div>
     </header>
@@ -55,11 +67,44 @@
         </div>
     </main>
 
+    <!-- بخش پشتیبانی -->
+    <section class="support-section">
+        <div class="container">
+            <h3>📞 پشتیبانی آنلاین</h3>
+            <p>برای مشاوره و خرید با ما در ارتباط باشید</p>
+            <div class="support-buttons">
+                <a href="https://wa.me/+989965566964" class="support-btn whatsapp" target="_blank">
+                    💬 واتساپ
+                </a>
+                <a href="https://www.instagram.com/pulsegadgett?igsh=MW1icjgzMmY2amJ1" class="support-btn instagram" target="_blank">
+                    📷 اینستاگرام
+                </a>
+            </div>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
-            <p>© پالس گجت</p>
+            <p>© PulseGadgett - ضربان استایل دیجیتال شما</p>
         </div>
     </footer>
+
+    <!-- سبد خرید -->
+    <div id="cartSidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h3>🛒 سبد خرید شما</h3>
+            <button class="close-cart" onclick="toggleCart()">✕</button>
+        </div>
+        <div id="cartItems" class="cart-items">
+            <!-- محصولات اینجا نمایش داده می‌شوند -->
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <strong>تعداد کل: <span id="totalItems">0</span> محصول</strong>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">📦 ثبت سفارش</button>
+        </div>
+    </div>
 
     <script src="products-data.js"></script>
     <script src="script.js"></script>
