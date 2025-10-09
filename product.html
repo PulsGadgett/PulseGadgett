@@ -304,7 +304,7 @@
                         <div class="product-price-section">
                             <span class="price">${product.price}</span>
                             ${product.available ? 
-                                '<button class="add-to-cart" onclick="addToCart(' + product.id + ')">➕ افزودن به سبد خرید</button>' : 
+                                '<button class="add-to-cart" onclick="addToCart(<?php echo $product['id']; ?>)">➕ افزودن به سبد خرید</button>' : 
                                 '<button class="out-of-stock-btn" disabled>ناموجود</button>'
                             }
                         </div>
@@ -361,4 +361,5 @@
         }
     </script>
 </body>
+
 </html>
