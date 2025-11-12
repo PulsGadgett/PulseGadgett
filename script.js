@@ -1,3 +1,11 @@
+// سیستم سبد خرید
+let cart = [];
+
+// بارگذاری سبد خرید از localStorage
+if (localStorage.getItem('cart')) {
+    cart = JSON.parse(localStorage.getItem('cart'));
+}
+
 // نمایش محصولات
 function displayProducts(productsArray) {
     const grid = document.getElementById('productsGrid');
@@ -84,36 +92,6 @@ function goToProduct(productId) {
     window.location.href = `product.html?id=${productId}`;
 }
 
-// بارگذاری اولیه - با تاخیر برای اطمینان از لود شدن products
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('صفحه لود شد');
-    console.log('تعداد محصولات:', products ? products.length : 'تعریف نشده');
-    
-    // کمی تاخیر برای اطمینان از لود شدن products
-    setTimeout(() => {
-        if (products && products.length > 0) {
-            displayProducts(products);
-        } else {
-            console.error('محصولات تعریف نشده یا خالی هستند!');
-            // تست با داده نمونه
-            const testProducts = [
-                {
-                    id: 1,
-                    name: "محصول تست",
-                    price: "۱۰۰,۰۰۰ تومان",
-                    image: "https://via.placeholder.com/300x200/667eea/ffffff?text=تست",
-                    category: "اسپیکر",
-                    code: "TEST-001",
-                    available: true,
-                    description: "این یک محصول تست است"
-                }
-            ];
-            displayProducts(testProducts);
-        }
-    }, 100);
-});// سیستم سبد خرید
-let cart = [];
-
 // نمایش/مخفی کردن سبد خرید
 function toggleCart() {
     const cartSidebar = document.getElementById('cartSidebar');
@@ -146,6 +124,9 @@ function addToCart(productId) {
             });
         }
         
+        // ذخیره در localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
         updateCartDisplay();
         showAddedToCartMessage(product.name);
     }
@@ -154,6 +135,8 @@ function addToCart(productId) {
 // حذف محصول از سبد خرید
 function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
+    // آپدیت localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
     updateCartDisplay();
 }
 
@@ -240,52 +223,14 @@ function checkout() {
     
     // خالی کردن سبد خرید
     cart = [];
+    localStorage.setItem('cart', JSON.stringify(cart));
     updateCartDisplay();
     toggleCart();
 }
 
-// آپدیت کارت محصولات برای اضافه کردن دکمه سبد خرید
-function updateProductCards() {
-    const productCards = document.querySelectorAll('.product-card');
-    productCards.forEach(card => {
-        const productId = card.querySelector('.view-details-btn').getAttribute('onclick').match(/\d+/)[0];
-        const product = products.find(p => p.id == productId);
-        
-        if (product && product.available) {
-            const addToCartBtn = document.createElement('button');
-            addToCartBtn.className = 'add-to-cart-btn';
-            addToCartBtn.innerHTML = '🛒 افزودن به سبد خرید';
-            addToCartBtn.onclick = (e) => {
-                e.stopPropagation();
-                addToCart(product.id);
-            };
-            
-            card.querySelector('.product-info').appendChild(addToCartBtn);
-        }
-    });
-}
-
-// اضافه کردن استایل دکمه افزودن به سبد خرید به CSS
-const style = document.createElement('style');
-style.textContent = `
-    .add-to-cart-btn {
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 20px;
-        cursor: pointer;
-        margin-top: 10px;
-        width: 100%;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .add-to-cart-btn:hover {
-        background: #218838;
-        transform: translateY(-2px);
-    }
-`;
-document.head.appendChild(style);
-
-
+// بارگذاری اولیه
+document.addEventListener('DOMContentLoaded', function() {
+    // آپدیت سبد خرید در ابتدا
+    updateCartDisplay();
+    displayProducts(products);
+});
