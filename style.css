@@ -1,3 +1,36 @@
+/* پالت رنگ جدید PulseGadgett */
+:root {
+    --header-purple: #8A6BFF;
+    --background-white: #FFFFFF;
+    --button-orange: #FF6B4A;
+    --card-cream: #FFF9F0;
+    --category-teal: #00C9B1;
+    --accent-yellow: #FFD166;
+    --footer-brown: #3A2D28;
+    --text-dark: #3A2D28;
+}
+
+/* تغییر پس‌زمینه کل سایت */
+body {
+    background-color: var(--background-white) !important;
+}
+
+/* تغییر هدر */
+header {
+    background: linear-gradient(135deg, var(--header-purple) 0%, #7A5BEE 100%) !important;
+}
+
+/* تغییر دکمه‌های اصلی */
+.search-container button,
+.view-details-btn,
+.add-to-cart-btn {
+    background: var(--button-orange) !important;
+}
+
+/* تغییر کارت محصولات */
+.product-card {
+    background: var(--card-cream) !important;
+}
 * {
     margin: 0;
     padding: 0;
@@ -766,3 +799,4 @@ footer {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
+
