@@ -799,4 +799,47 @@ footer {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
+/* تغییر دکمه‌های دسته‌بندی */
+.category-btn {
+    background: white !important;
+    border: 2px solid var(--category-teal) !important;
+    color: var(--category-teal) !important;
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background: var(--category-teal) !important;
+    color: white !important;
+}
+
+/* تغییر سبد خرید */
+.cart-icon {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border: 2px solid var(--accent-yellow) !important;
+    color: var(--accent-yellow) !important;
+}
+
+.cart-count {
+    background: var(--accent-yellow) !important;
+    color: var(--text-dark) !important;
+}
+
+/* تغییر بخش پشتیبانی */
+.support-section {
+    background: linear-gradient(135deg, var(--footer-brown) 0%, #2A1D18 100%) !important;
+}
+
+.support-btn.whatsapp {
+    background: var(--category-teal) !important;
+}
+
+.support-btn.instagram {
+    background: var(--header-purple) !important;
+}
+
+/* تغییر فوتر */
+footer {
+    background: var(--footer-brown) !important;
+    color: white !important;
+}
 
