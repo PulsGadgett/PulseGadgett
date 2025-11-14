@@ -118,6 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('صفحه لود شد');
     console.log('تعداد محصولات:', products ? products.length : 'تعریف نشده');
     
+    // بارگذاری سبد خرید از localStorage
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    updateCartDisplay();
+    
     // کمی تاخیر برای اطمینان از لود شدن products
     setTimeout(() => {
         if (products && products.length > 0) {
@@ -168,17 +172,27 @@ function toggleCart() {
 function addToCart(productId) {
     const product = products.find(p => p.id === productId);
     if (product) {
-        const existingItem = cart.find(item => item.id === productId);
+        // هماهنگ با صفحه جزئیات - استفاده از localStorage
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existingItem = cart.find(item => item.id == productId);
         
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
             cart.push({
-                ...product,
+                id: product.id,
+                name: product.name,
+                price: product.price,
+                image: product.image,
+                code: product.code,
                 quantity: 1
             });
         }
         
+        // ذخیره در localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // آپدیت نمایش
         updateCartDisplay();
         showAddedToCartMessage(product.name);
     }
@@ -186,7 +200,11 @@ function addToCart(productId) {
 
 // حذف محصول از سبد خرید
 function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+    // هماهنگ با صفحه جزئیات - استفاده از localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart = cart.filter(item => item.id != productId);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
     updateCartDisplay();
 }
 
@@ -217,46 +235,54 @@ function showAddedToCartMessage(productName) {
 
 // آپدیت نمایش سبد خرید
 function updateCartDisplay() {
+    // هماهنگ با صفحه جزئیات - خواندن از localStorage
+    cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
     const cartItems = document.getElementById('cartItems');
     const cartCount = document.getElementById('cartCount');
     const totalItems = document.getElementById('totalItems');
     
     // آپدیت تعداد محصولات
     const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartCount.textContent = totalQuantity;
-    totalItems.textContent = totalQuantity;
+    if (cartCount) cartCount.textContent = totalQuantity;
+    if (totalItems) totalItems.textContent = totalQuantity;
     
     // آپدیت لیست محصولات
-    cartItems.innerHTML = '';
-    
-    if (cart.length === 0) {
-        cartItems.innerHTML = `
-            <div style="text-align: center; padding: 40px; color: #666;">
-                <p>🛒 سبد خرید شما خالی است</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">محصولاتی را به سبد خرید اضافه کنید</p>
-            </div>
-        `;
-        return;
+    if (cartItems) {
+        cartItems.innerHTML = '';
+        
+        if (cart.length === 0) {
+            cartItems.innerHTML = `
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <p>🛒 سبد خرید شما خالی است</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">محصولاتی را به سبد خرید اضافه کنید</p>
+                </div>
+            `;
+            return;
+        }
+        
+        cart.forEach(item => {
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.innerHTML = `
+                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                <div class="cart-item-info">
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-price">${item.price}</div>
+                    <div style="font-size: 0.8rem; color: #666;">تعداد: ${item.quantity}</div>
+                </div>
+                <button class="remove-item" onclick="removeFromCart(${item.id})">🗑️</button>
+            `;
+            cartItems.appendChild(cartItem);
+        });
     }
-    
-    cart.forEach(item => {
-        const cartItem = document.createElement('div');
-        cartItem.className = 'cart-item';
-        cartItem.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="cart-item-image">
-            <div class="cart-item-info">
-                <div class="cart-item-name">${item.name}</div>
-                <div class="cart-item-price">${item.price}</div>
-                <div style="font-size: 0.8rem; color: #666;">تعداد: ${item.quantity}</div>
-            </div>
-            <button class="remove-item" onclick="removeFromCart(${item.id})">🗑️</button>
-        `;
-        cartItems.appendChild(cartItem);
-    });
 }
 
 // ثبت سفارش
 function checkout() {
+    // هماهنگ با صفحه جزئیات - خواندن از localStorage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
     if (cart.length === 0) {
         alert('❌ سبد خرید شما خالی است!');
         return;
@@ -272,7 +298,7 @@ function checkout() {
     window.open(whatsappUrl, '_blank');
     
     // خالی کردن سبد خرید
-    cart = [];
+    localStorage.removeItem('cart');
     updateCartDisplay();
     toggleCart();
 }
