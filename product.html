@@ -319,11 +319,11 @@
             `;
         }
 
-        // تابع افزودن به سبد خرید برای صفحه محصول
+        // تابع افزودن به سبد خرید برای صفحه محصول - نسخه نهایی
         function addToCart(productId) {
             const product = products.find(p => p.id == productId);
             if (product) {
-                // ذخیره در localStorage برای انتقال به صفحه اصلی
+                // دریافت سبد خرید از localStorage یا ایجاد جدید
                 let cart = JSON.parse(localStorage.getItem('cart')) || [];
                 const existingItem = cart.find(item => item.id == productId);
                 
@@ -331,27 +331,54 @@
                     existingItem.quantity += 1;
                 } else {
                     cart.push({
-                        ...product,
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        code: product.code,
                         quantity: 1
                     });
                 }
                 
+                // ذخیره در localStorage
                 localStorage.setItem('cart', JSON.stringify(cart));
                 
                 // نمایش پیام موفقیت
-                alert(`✅ ${product.name} به سبد خرید اضافه شد!\n\nمی‌توانید به خرید ادامه دهید یا به صفحه اصلی برگردید.`);
+                const message = document.createElement('div');
+                message.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: #27ae60;
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 25px;
+                    z-index: 10000;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                    font-weight: bold;
+                `;
+                message.textContent = `✅ ${product.name} به سبد خرید اضافه شد`;
                 
-                // به روزرسانی دکمه برای نشان دادن اضافه شدن
+                document.body.appendChild(message);
+                
+                setTimeout(() => {
+                    message.remove();
+                }, 3000);
+                
+                // آپدیت دکمه
                 const addButton = document.querySelector('.add-to-cart');
                 if (addButton) {
-                    addButton.textContent = '✅ افزوده شد به سبد';
+                    const originalText = addButton.textContent;
+                    const originalBg = addButton.style.background;
+                    
+                    addButton.textContent = '✅ افزوده شد';
                     addButton.style.background = '#28a745';
                     addButton.disabled = true;
                     
-                    // بازگردانی دکمه بعد از 2 ثانیه
                     setTimeout(() => {
-                        addButton.textContent = '➕ افزودن به سبد خرید';
-                        addButton.style.background = '';
+                        addButton.textContent = originalText;
+                        addButton.style.background = originalBg;
                         addButton.disabled = false;
                     }, 2000);
                 }
